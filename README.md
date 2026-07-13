@@ -1,4 +1,36 @@
-Causal Uplift Modeling & Experimentation PipelineAn end-to-end Python pipeline and interactive Streamlit dashboard demonstrating how to move beyond naive A/B testing using causal inference and machine learning.This project tackles the real-world complexities of experimentation by addressing flawed randomization, confounding variables, and heterogeneous treatment effects to maximize marketing ROI.📌 Project OverviewMost standard A/B testing analysis stops at identifying whether a treatment worked "on average" ($p < 0.05$). However, in production environments, treating every user is expensive and inefficient.Using the Criteo Uplift Modeling Dataset (~13M rows), this project builds a robust experimentation pipeline that answers the most critical business question: Who actually needs to be targeted? It achieves this by moving from Average Treatment Effects (ATE) to Conditional Average Treatment Effects (CATE) via a T-Learner meta-learner architecture, while explicitly correcting for the observational biases that often corrupt standard analytics.🚀 Key FeaturesStatistical Power & Design: Calculates Minimum Detectable Effects (MDE) and required sample sizes for low-baseline conversion events.Automated Data Quality Checks: Implements Chi-Square goodness-of-fit testing to automatically detect Sample Ratio Mismatch (SRM) and randomization bias.Causal Correction: Replaces naive analysis with Propensity Score Matching (Logistic Regression & K-Nearest Neighbors) to balance covariate distribution and isolate the true causal lift.Uplift Modeling (T-Learner): Utilizes dual-XGBoost classifiers to predict individual-level treatment effects, segmenting users into actionable cohorts (Persuadables, Sure Things, Sleeping Dogs).Interactive Dashboard: Deploys a Streamlit application to visualize the causal correction process, power requirements, and Qini curves for stakeholder presentation.🛠️ Technology StackLanguage: Python 3.xData Processing: Pandas, NumPyStatistical Modeling: Statsmodels, SciPyMachine Learning: Scikit-Learn, XGBoostVisualization & UI: Matplotlib, Streamlit📁 Project StructurePlaintextcausal-uplift-project/
+Markdown
+# Causal Uplift Modeling & Experimentation Pipeline
+
+An end-to-end Python pipeline and interactive Streamlit dashboard demonstrating how to move beyond naive A/B testing using causal inference and machine learning. 
+
+This project tackles the real-world complexities of experimentation by addressing flawed randomization, confounding variables, and heterogeneous treatment effects to maximize marketing ROI.
+
+## 📌 Project Overview
+
+Most standard A/B testing analysis stops at identifying whether a treatment worked "on average" ($p < 0.05$). However, in production environments, treating every user is expensive and inefficient. 
+
+Using the **Criteo Uplift Modeling Dataset (~13M rows)**, this project builds a robust experimentation pipeline that answers the most critical business question: **Who actually needs to be targeted?** It achieves this by moving from Average Treatment Effects (ATE) to Conditional Average Treatment Effects (CATE) via a T-Learner meta-learner architecture, while explicitly correcting for the observational biases that often corrupt standard analytics.
+
+## 🚀 Key Features
+
+* **Statistical Power & Design:** Calculates Minimum Detectable Effects (MDE) and required sample sizes for low-baseline conversion events.
+* **Automated Data Quality Checks:** Implements Chi-Square goodness-of-fit testing to automatically detect Sample Ratio Mismatch (SRM) and randomization bias.
+* **Causal Correction:** Replaces naive analysis with Propensity Score Matching (Logistic Regression & K-Nearest Neighbors) to balance covariate distribution and isolate the true causal lift.
+* **Uplift Modeling (T-Learner):** Utilizes dual-XGBoost classifiers to predict individual-level treatment effects, segmenting users into actionable cohorts (Persuadables, Sure Things, Sleeping Dogs).
+* **Interactive Dashboard:** Deploys a Streamlit application to visualize the causal correction process, power requirements, and Qini curves for stakeholder presentation.
+
+## 🛠️ Technology Stack
+
+* **Language:** Python 3.x
+* **Data Processing:** Pandas, NumPy
+* **Statistical Modeling:** Statsmodels, SciPy
+* **Machine Learning:** Scikit-Learn, XGBoost
+* **Visualization & UI:** Matplotlib, Streamlit
+
+## 📁 Project Structure
+
+```text
+causal-uplift-project/
 │
 ├── data/
 │   └── criteo_uplift.csv          # (Not included in repo due to size limits)
@@ -10,10 +42,35 @@ Causal Uplift Modeling & Experimentation PipelineAn end-to-end Python pipeline a
 ├── app.py                         # Interactive Streamlit dashboard
 ├── requirements.txt               # Environment dependencies
 └── README.md                      # Project documentation
-⚙️ Installation & Setup1. Clone the repositoryBashgit clone https://github.com/yourusername/causal-uplift-modeling.git
+⚙️ Installation & Setup
+1. Clone the repository
+
+Bash
+git clone [https://github.com/yourusername/causal-uplift-modeling.git](https://github.com/yourusername/causal-uplift-modeling.git)
 cd causal-uplift-modeling
-2. Create a virtual environmentBashpython -m venv myenv
+2. Create a virtual environment
+
+Bash
+python -m venv myenv
 source myenv/bin/activate  # On Windows use: myenv\Scripts\activate
-3. Install dependenciesBashpip install pandas numpy scipy statsmodels scikit-learn xgboost matplotlib streamlit
-4. Run the Streamlit DashboardBashstreamlit run app.py
-📊 Results & Business ImpactThe uplift model successfully isolated the "Persuadables" (users who only convert because of the ad intervention) from the rest of the population.Key Findings:Confounding Correction: Naive A/B testing showed artificially inflated results due to highly engaged users clustering in the treatment group (Standardized Mean Difference = 1.289). Propensity Score Matching successfully balanced the cohorts (SMD = 0.002), revealing the true causal effect.Targeting Efficiency: Segmenting users by predicted uplift revealed a top quartile (Q1) that achieved a +24.1% absolute conversion lift.Waste Reduction: The model identified a bottom quartile (Q4 / "Sleeping Dogs") that exhibited a -7.5% absolute lift, proving that targeting these users actually decreased overall conversion rates. Reallocating budget away from Q4 directly increases marketing ROI.🔗 DatasetThe data utilized in this project is based on the Criteo Uplift Modeling Dataset, which consists of 13 million rows of real-world advertising data, including a binary treatment flag, outcome labels (visit/conversion), and 12 anonymized continuous features.
+3. Install dependencies
+
+Bash
+pip install pandas numpy scipy statsmodels scikit-learn xgboost matplotlib streamlit
+4. Run the Streamlit Dashboard
+
+Bash
+streamlit run app.py
+📊 Results & Business Impact
+The uplift model successfully isolated the "Persuadables" (users who only convert because of the ad intervention) from the rest of the population.
+
+Key Findings:
+
+Confounding Correction: Naive A/B testing showed artificially inflated results due to highly engaged users clustering in the treatment group (Standardized Mean Difference = 1.289). Propensity Score Matching successfully balanced the cohorts (SMD = 0.002), revealing the true causal effect.
+
+Targeting Efficiency: Segmenting users by predicted uplift revealed a top quartile (Q1) that achieved a +24.1% absolute conversion lift.
+
+Waste Reduction: The model identified a bottom quartile (Q4 / "Sleeping Dogs") that exhibited a -7.5% absolute lift, proving that targeting these users actually decreased overall conversion rates. Reallocating budget away from Q4 directly increases marketing ROI.
+
+🔗 Dataset
+The data utilized in this project is based on the Criteo Uplift Modeling Dataset, which consists of 13 million rows of real-world advertising data, including a binary treatment flag, outcome labels (visit/conversion), and 12 anonymized continuous features.
